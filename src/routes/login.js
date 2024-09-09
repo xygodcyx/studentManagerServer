@@ -1,10 +1,9 @@
-const express = require('express')
 const { dbQ } = require('../db/query')
 const { v4: uuidv4 } = require('uuid')
 const { sign, getBaseSqlFromData } = require('../tools')
 
+const express = require('express')
 const router = express.Router()
-
 // 查询
 router.post('/', async (req, res) => {
   const { account, password } = req.body
