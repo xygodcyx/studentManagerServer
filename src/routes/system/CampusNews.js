@@ -3,12 +3,11 @@ const { dbQ } = require('../../db/query')
 const router = express.Router()
 router.get('/list', async (req, res) => {
   const { pageNum, pageSize, searchValue } = req.query
-  const total = await dbQ('select * from schoolteachingmanage ',[])
-  const result = await dbQ('select * from schoolteachingmanage LIMIT ? , ?', [
+  const total = await dbQ('select * from CampusNews ',[])
+  const result = await dbQ('select * from CampusNews LIMIT ? , ?', [
     (pageNum - 1) * pageSize,
     +pageSize * 1,
   ])
-
   try {
     res.send({
       total: total.length,
@@ -22,7 +21,7 @@ router.get('/list', async (req, res) => {
 })
 router.get('/:id', async (req, res) => {
   const { id } = req.params
-  const result = await dbQ('select * from schoolteachingmanage where id=?', [id])
+  const result = await dbQ('select * from CampusNews where id=?', [id])
   try {
     res.send({
       data: result[0],
@@ -34,16 +33,16 @@ router.get('/:id', async (req, res) => {
   }
 })
 router.post('/', async (req, res) => {
-  // grade 年级 True String
-  // studyStage 学段 True String
-  // classId 班级 True String
-  // SubjectId 课程编号 True String
-  // teacherId 教师姓名 True String
-  // year 学年 True String
-  let { grade, studyStage, classId, subjectName, userName, year } = req.body
+  // newsHeadline 新闻标题 String
+  // founder 发布人 string
+  // Id 新闻 ID Int
+  // newsDetail 新闻内容 string
+  // state 发布状态（1 发布中、2 暂停发布） Int
+  // coverPhoto 新闻图片 string
+  let { newsHeadline, founder, newsDetail, state, coverPhoto } = req.body
   const sql =
-    'insert into schoolteachingmanage (grade,studyStage,classId,subjectName,userName,year) values (?,?,?,?,?,?)'
-  const params = [grade, studyStage, classId, subjectName, userName, year]
+    'insert into CampusNews (newsHeadline,founder,newsDetail,state,coverPhoto) values (?,?,?,?,?)'
+  const params = [newsHeadline, founder, newsDetail, state, coverPhoto]
   try {
     const result = await dbQ(sql, params)
     res.send({
@@ -57,17 +56,17 @@ router.post('/', async (req, res) => {
 })
 
 router.put('/', async (req, res) => {
-  // grade 年级 True String
-  // studyStage 学段 True String
-  // classId 班级 True String
-  // SubjectId 课程编号 True String
-  // teacherId 教师姓名 True String
-  // year 学年 True String
-  let { id, grade, studyStage, classId, subjectName, userName, year } = req.body
+  // newsHeadline 新闻标题 String
+  // founder 发布人 string
+  // Id 新闻 ID Int
+  // newsDetail 新闻内容 string
+  // state 发布状态（1 发布中、2 暂停发布） Int
+  // coverPhoto 新闻图片 string
+  let { id, newsHeadline, founder, newsDetail, state, coverPhoto} = req.body
   console.log('put', req.body)
   const sql =
-    'update schoolteachingmanage set grade=?,studyStage=?,classId=?,subjectName=?,userName=?,year=? where id=?'
-  const params = [grade, studyStage, classId, subjectName, userName, year, id]
+    'update CampusNews set newsHeadline=?,founder=?,newsDetail=?,state=?,coverPhoto=? where id=?'
+  const params = [newsHeadline, founder, newsDetail, state, coverPhoto, id]
   try {
     const result = await dbQ(sql, params)
     res.send({
@@ -80,15 +79,15 @@ router.put('/', async (req, res) => {
   }
 })
 router.delete('/:id', async (req, res) => {
-  // grade 年级 True String
-  // studyStage 学段 True String
-  // classId 班级 True String
-  // SubjectId 课程编号 True String
-  // teacherId 教师姓名 True String
-  // year 学年 True String
+  // newsHeadline 新闻标题 String
+  // founder 发布人 string
+  // Id 新闻 ID Int
+  // newsDetail 新闻内容 string
+  // state 发布状态（1 发布中、2 暂停发布） Int
+  // coverPhoto 新闻图片 string
   let { id } = req.params
   let ids = id.split(',')
-  const sql = 'delete from schoolteachingmanage where id in (' + ids.join(',') + ')'
+  const sql = 'delete from CampusNews where id in (' + ids.join(',') + ')'
   const params = [id]
   try {
     const result = await dbQ(sql, params)
