@@ -110,6 +110,18 @@ router.get('/getRouters', (req, res) => {
           },
         ],
       },
+      {
+        path: '/index',
+        meta: { title: '预约管理' },
+        component: 'Layout',
+        children: [
+          {
+            path: 'visitToday',
+            meta: { title: '预约管理' },
+            component: 'system/visitToday',
+          },
+        ],
+      },
 
       {
         path: '/InnerLink',

@@ -1,0 +1,10 @@
+[build]
+  command = "pnpm install"
+  functions="routes"
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+[functions]
+  node_bundler = "command"
+  external_node_modules = ["express"]

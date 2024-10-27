@@ -3,8 +3,8 @@ const { dbQ } = require('../../db/query')
 const router = express.Router()
 router.get('/list', async (req, res) => {
   const { pageNum, pageSize, searchValue } = req.query
-  const total = await dbQ('select * from CampusNews ',[])
-  const result = await dbQ('select * from CampusNews LIMIT ? , ?', [
+  const total = await dbQ('select * from campusNews ',[])
+  const result = await dbQ('select * from campusNews LIMIT ? , ?', [
     (pageNum - 1) * pageSize,
     +pageSize * 1,
   ])
@@ -21,7 +21,7 @@ router.get('/list', async (req, res) => {
 })
 router.get('/:id', async (req, res) => {
   const { id } = req.params
-  const result = await dbQ('select * from CampusNews where id=?', [id])
+  const result = await dbQ('select * from campusNews where id=?', [id])
   try {
     res.send({
       data: result[0],
@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
   // coverPhoto 新闻图片 string
   let { newsHeadline, founder, newsDetail, state, coverPhoto } = req.body
   const sql =
-    'insert into CampusNews (newsHeadline,founder,newsDetail,state,coverPhoto) values (?,?,?,?,?)'
+    'insert into campusNews (newsHeadline,founder,newsDetail,state,coverPhoto) values (?,?,?,?,?)'
   const params = [newsHeadline, founder, newsDetail, state, coverPhoto]
   try {
     const result = await dbQ(sql, params)
@@ -65,7 +65,7 @@ router.put('/', async (req, res) => {
   let { id, newsHeadline, founder, newsDetail, state, coverPhoto} = req.body
   console.log('put', req.body)
   const sql =
-    'update CampusNews set newsHeadline=?,founder=?,newsDetail=?,state=?,coverPhoto=? where id=?'
+    'update campusNews set newsHeadline=?,founder=?,newsDetail=?,state=?,coverPhoto=? where id=?'
   const params = [newsHeadline, founder, newsDetail, state, coverPhoto, id]
   try {
     const result = await dbQ(sql, params)
@@ -87,7 +87,7 @@ router.delete('/:id', async (req, res) => {
   // coverPhoto 新闻图片 string
   let { id } = req.params
   let ids = id.split(',')
-  const sql = 'delete from CampusNews where id in (' + ids.join(',') + ')'
+  const sql = 'delete from campusNews where id in (' + ids.join(',') + ')'
   const params = [id]
   try {
     const result = await dbQ(sql, params)
